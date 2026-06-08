@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import Header from "./theme/Header";
-import OwnerPanel from './pages/OwnerPanel';
+
 import Footer from './theme/Footer'; 
 import Home from './pages/Home';
 import Movies from './pages/Movies';
@@ -70,7 +70,7 @@ function App() {
             
             {/* Secure Admin Ecosystem */}
             <Route path="/owner-panel" element={<Guard><OwnerPanel /></Guard>} />
-            <Route path="/owner-panel" element={<OwnerPanel />} />
+           
             {/* Fallback Catch-All Wildcard Redirector */}
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
