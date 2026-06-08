@@ -227,18 +227,18 @@ function TVDetails() {
             )}
             
             {/* ── STANDARD SPECIFICATION IFRAME FOR STABLE FULLSCREEN ── */}
-            <iframe
-              key={`tv-${serverKey}-${iframeKey}-${season}-${episode}`}
-              className="w-full h-full bg-black"
-              src={tvSources[serverKey]}
-              title="Full TV Stream Engine"
-              frameBorder="0"
-              scrolling="no"
-              allow="autoplay; fullscreen"
-              allowFullScreen
-              referrerPolicy="origin"
-              sandbox="allow-forms allow-pointer-lock allow-same-origin allow-scripts allow-modals allow-popups allow-popups-to-escape-sandbox"
-            />
+           <iframe
+  key={`tv-${serverKey}-${iframeKey}-${season}-${episode}`}
+  className="w-full h-full bg-black"
+  src={tvSources[serverKey]}
+  title="Full TV Stream Engine"
+  frameBorder="0"
+  scrolling="no"
+  allow="autoplay; fullscreen; picture-in-picture"
+  allowFullScreen={true}
+  referrerPolicy="no-referrer-when-downgrade"
+  sandbox="allow-forms allow-pointer-lock allow-same-origin allow-scripts allow-modals allow-popups allow-popups-to-escape-sandbox allow-presentation"
+/>
           </div>
         )}
       </div>
