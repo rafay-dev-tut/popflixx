@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { fetchTVDetails, fetchTVVideos, getImageUrl, fetchRelatedTVShows } from '../services/api'; // Make sure these helpers exist in your api.js
+import { fetchTVDetails, fetchTVVideos, getImageUrl, fetchRelatedTVShows } from '../services/api'; 
 
 // ── FIXED IMPORT: Bundled authService standard object import ──
 import { authService } from '../services/authLocalStorage';
@@ -31,7 +31,6 @@ function TVDetails() {
     const getTVDetails = async () => {
       setLoading(true);
       try {
-        // dynamic API calls for TV Show details
         const details = await fetchTVDetails(id);
         const videoKey = await fetchTVVideos(id);
         const related = await fetchRelatedTVShows(id);
@@ -59,7 +58,6 @@ function TVDetails() {
   // ── LOGIC FOR TRACKING WATCH HISTORY ──
   const handleStartWatching = () => {
     if (show) {
-      // Pushes the TV show state along with current season & episode into local storage history
       authService.updateMovieHistory(
         show.id, 
         `${show.name} - S${season}E${episode}`, 
@@ -81,7 +79,6 @@ function TVDetails() {
     }
   };
 
-  // Automatically reset stream structure safely when season or episode changes
   const handleEpisodeChange = (newEpisode) => {
     setEpisode(Number(newEpisode));
     setIframeKey(prev => prev + 1);
@@ -90,7 +87,7 @@ function TVDetails() {
 
   const handleSeasonChange = (newSeason) => {
     setSeason(Number(newSeason));
-    setEpisode(1); // Reset back to episode 1 on season switch
+    setEpisode(1); 
     setIframeKey(prev => prev + 1);
     setShowShield(true);
   };
@@ -135,7 +132,6 @@ function TVDetails() {
     { key: "smashy",     label: "VIP Server 4 (Secure-Node)", icon: "🛡️" },
   ];
 
-  // Helper arrays for populating dynamic select inputs based on show metadata if available, otherwise defaults to 10/20
   const totalSeasons = show.number_of_seasons ? Array.from({ length: show.number_of_seasons }, (_, i) => i + 1) : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   const totalEpisodes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25];
 
@@ -175,7 +171,7 @@ function TVDetails() {
         <button
           onClick={() => {
             setActiveTab("fullShow");
-            handleStartWatching(); // Automatically pushes it into Continue Watching row
+            handleStartWatching(); 
           }}
           className={`flex-1 sm:flex-none px-6 py-3 rounded-t-xl font-bold text-xs sm:text-sm tracking-wide transition-all ${
             activeTab === "fullShow"
@@ -216,7 +212,7 @@ function TVDetails() {
                 onClick={(e) => {
                   e.stopPropagation();
                   setShowShield(false); 
-                  handleStartWatching(); // Double check sequence pipeline tracking
+                  handleStartWatching(); 
                 }} 
                 className="absolute inset-0 z-50 cursor-pointer bg-black/60 flex items-center justify-center backdrop-blur-[2px]"
               >
@@ -229,6 +225,8 @@ function TVDetails() {
                 </div>
               </div>
             )}
+            
+            {/* ── STANDARD SPECIFICATION IFRAME FOR STABLE FULLSCREEN ── */}
             <iframe
               key={`tv-${serverKey}-${iframeKey}-${season}-${episode}`}
               className="w-full h-full bg-black"
@@ -236,10 +234,10 @@ function TVDetails() {
               title="Full TV Stream Engine"
               frameBorder="0"
               scrolling="no"
-              allow="autoplay; fullscreen; picture-in-picture"
+              allow="autoplay; fullscreen"
               allowFullScreen
               referrerPolicy="origin"
-              sandbox="allow-forms allow-pointer-lock allow-same-origin allow-scripts allow-modals"
+              sandbox="allow-forms allow-pointer-lock allow-same-origin allow-scripts allow-modals allow-popups allow-popups-to-escape-sandbox"
             />
           </div>
         )}
@@ -248,7 +246,6 @@ function TVDetails() {
       {/* ── Season & Episode Selectors + Server Switcher Layout ── */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-4 mb-6">
         
-        {/* Episode Context Iterators */}
         <div className="lg:col-span-1 grid grid-cols-2 gap-3 bg-gray-900/60 p-4 rounded-xl border border-gray-800 h-fit">
           <div>
             <label className="block text-[10px] uppercase text-gray-500 font-extrabold mb-1.5 tracking-wider">Season</label>
@@ -273,7 +270,6 @@ function TVDetails() {
           </div>
         </div>
 
-        {/* Server Selector Panel */}
         <div className="lg:col-span-2 bg-gray-900/60 p-4 rounded-xl border border-gray-800 flex flex-col justify-center gap-3">
           <span className="text-xs font-semibold text-gray-300 pl-1">
             🛠️ Experiencing playback issues? Switch to an alternative server stream below:
@@ -285,7 +281,7 @@ function TVDetails() {
               value={serverKey}
               onChange={(e) => handleServerChange(e.target.value)}
               className="w-full bg-gray-950 border-2 border-gray-800 text-gray-200 rounded-lg px-4 py-3 text-sm font-bold focus:outline-none focus:border-[#841919] transition-all cursor-pointer appearance-none"
-              style={{ backgroundImage: `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center', backgroundSize: '16px' }}
+              style={{ backgroundImage: `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/xl' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center', backgroundSize: '16px' }}
             >
               {servers.map((s) => (
                 <option key={s.key} value={s.key} className="bg-gray-950 text-white py-2">
@@ -319,7 +315,6 @@ function TVDetails() {
 
       {/* ── TV Show Metadata Info Section ── */}
       <div className="flex flex-col sm:flex-row gap-6 sm:gap-8 items-start mt-6 bg-gray-900/20 p-4 rounded-2xl border border-gray-800/40">
-        {/* Poster Grid */}
         <div className="w-28 sm:w-48 md:w-64 mx-auto sm:mx-0 flex-shrink-0 rounded-xl overflow-hidden shadow-2xl border border-gray-800">
           <img
             src={getImageUrl(show.poster_path)}
@@ -328,7 +323,6 @@ function TVDetails() {
           />
         </div>
 
-        {/* Detailed Panels */}
         <div className="flex-grow min-w-0 w-full">
           <div className="flex mb-2 justify-center sm:justify-start">
             <span className="text-[9px] bg-[#841919]/10 text-[#a62222] border border-[#841919]/30 px-3 py-1 rounded-full font-extrabold uppercase tracking-widest">
@@ -343,7 +337,6 @@ function TVDetails() {
             <p className="text-gray-400 text-xs sm:text-sm italic mb-3 text-center sm:text-left">"{show.tagline}"</p>
           )}
 
-          {/* Metadata Badges */}
           <div className="flex flex-wrap gap-2 items-center justify-center sm:justify-start text-xs font-bold mb-5">
             <span className="bg-[#841919] text-white px-3 py-1.5 rounded-md shadow">
               ⭐ {show.vote_average?.toFixed(1)} / 10
@@ -363,7 +356,6 @@ function TVDetails() {
             )}
           </div>
 
-          {/* Overview */}
           <div className="mb-5">
             <h3 className="text-lg font-bold border-b border-gray-800 pb-2 mb-3 tracking-wide text-gray-200">
               Overview
@@ -371,7 +363,6 @@ function TVDetails() {
             <p className="text-gray-300 text-sm sm:text-base leading-relaxed text-justify sm:text-left">{show.overview}</p>
           </div>
 
-          {/* Genres Badge Loop */}
           {show.genres?.length > 0 && (
             <div>
               <h4 className="text-xs sm:text-sm font-bold text-gray-400 mb-2 uppercase tracking-wider">Genres</h4>
