@@ -42,7 +42,7 @@ function TVDetails() {
       } catch (error) {
         console.error("Error fetching TV data:", error);
       } finally {
-        loading(false);
+        setLoading(false);
       }
     };
     getTVDetails();
@@ -229,8 +229,6 @@ function TVDetails() {
                 </div>
               </div>
             )}
-            
-            {/* ── FIXED: Added critical allow="fullscreen" attributes and expanded sandbox tokens ── */}
             <iframe
               key={`tv-${serverKey}-${iframeKey}-${season}-${episode}`}
               className="w-full h-full bg-black"
@@ -238,12 +236,10 @@ function TVDetails() {
               title="Full TV Stream Engine"
               frameBorder="0"
               scrolling="no"
-              allow="autoplay; fullscreen; picture-in-picture; webkitallowfullscreen; mozallowfullscreen"
-              allowFullScreen={true}
-              webkitallowfullscreen="true"
-              mozallowfullscreen="true"
+              allow="autoplay; fullscreen; picture-in-picture"
+              allowFullScreen
               referrerPolicy="origin"
-              sandbox="allow-forms allow-pointer-lock allow-same-origin allow-scripts allow-modals allow-popups allow-popups-to-escape-sandbox"
+              sandbox="allow-forms allow-pointer-lock allow-same-origin allow-scripts allow-modals"
             />
           </div>
         )}
